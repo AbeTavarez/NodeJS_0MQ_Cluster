@@ -11,6 +11,8 @@ console.log(numWorkers);
 //* Responder Cluster
 if (cluster.isMaster) {
   // Master process creates ROUTER & DEALER sockets and binds endpoint
+
+  // Router listens for TCP connections on PORT
   const router = zmq.socket(`router`).bind(`tcp://127.0.0.1:60401`);
   const dealer = zmq.socket(`dealer`).bind(`ipc://filer-dealer.ipc`);
 
@@ -23,7 +25,7 @@ if (cluster.isMaster) {
     console.log(`Worker ID: ${worker.process.pid}, is online.`)
   );
 
-  // Fork a worker process for each CPU
+  // Fork a worker process for each CPU (1 per CPU)
   for (let i = 0; i < numWorkers; i++) {
     // forking....
     cluster.fork();
