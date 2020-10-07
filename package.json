@@ -1,0 +1,11 @@
+{
+  "name": "nodejs_cluster",
+  "version": "1.0.0",
+  "description": "NodeJS Cluster with 0MQ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abraham Tavarez",
+  "license": "MIT"
+}
