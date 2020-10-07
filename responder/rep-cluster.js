@@ -6,14 +6,15 @@ const zmq = require(`zeromq`);
 const numWorkers = require(`os`).cpus().length;
 
 // Num of CPUS
-console.log(numWorkers);
+// console.log(numWorkers);
 
 //* Responder Cluster
 if (cluster.isMaster) {
   // Master process creates ROUTER & DEALER sockets and binds endpoint
-
   // Router listens for TCP connections on PORT
   const router = zmq.socket(`router`).bind(`tcp://127.0.0.1:60401`);
+
+  // 0MQ use ipc file extension
   const dealer = zmq.socket(`dealer`).bind(`ipc://filer-dealer.ipc`);
 
   // Forward messages between the router and the dealer
@@ -41,9 +42,10 @@ if (cluster.isMaster) {
 
     // Read the file and reply with content
     fs.readFile(request.path, (err, content) => {
+      console.log(`${process.pid} recieved request for ${request.path}`);
       responder.send(
         JSON.stringify({
-          constent: content.toString(),
+          content: content.toString(),
           timestamp: Date.now(),
           pid: process.pid,
         })
